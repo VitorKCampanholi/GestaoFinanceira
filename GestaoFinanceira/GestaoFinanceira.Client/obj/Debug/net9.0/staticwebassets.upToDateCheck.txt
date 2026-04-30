@@ -1,0 +1,4 @@
+wwwroot\appsettings.Development.json
+wwwroot\appsettings.json
+C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\wwwroot\appsettings.Development.json
+C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\wwwroot\appsettings.json

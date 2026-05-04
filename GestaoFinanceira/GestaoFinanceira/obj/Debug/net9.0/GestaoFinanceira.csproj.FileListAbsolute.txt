@@ -247,8 +247,6 @@ C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\n
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\ref\GestaoFinanceira.dll
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\scopedcss\Components\Layout\Admin\MainLayout.razor.rz.scp.css
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\scopedcss\Components\Layout\Admin\NavMenu.razor.rz.scp.css
-C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\mi8wamotgx-pitnoeazpu.gz
-C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\i2hm8grm6q-pitnoeazpu.gz
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\zcl9a4hg2r-ty6q4bb5b0.gz
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\rkjy81wphn-1o607l1t1y.gz
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\y2plix98kh-cs2yr5tc1q.gz
@@ -3292,3 +3290,6 @@ C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\n
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.Facebook.dll
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\7g56c4o0yu-lj4avp9ynz.gz
+C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\GestaoFinanceira.sourcelink.json
+C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\mi8wamotgx-ch8bcs7wk3.gz
+C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira\obj\Debug\net9.0\compressed\i2hm8grm6q-ch8bcs7wk3.gz

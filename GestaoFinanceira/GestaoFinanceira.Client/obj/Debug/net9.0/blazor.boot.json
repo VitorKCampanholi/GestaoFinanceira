@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "GestaoFinanceira.Client",
   "resources": {
-    "hash": "sha256-eke8OuqgZ+CkKA5WwOOmreaAo4WOlc8wS9v+O94ev34=",
+    "hash": "sha256-NhkEdDXCAwCFXMuwXNQ10fTYkP95MkaTIqU2ezOJH4s=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Authorization.ag393jzyei.wasm": "Microsoft.AspNetCore.Authorization.wasm",
       "Microsoft.AspNetCore.Components.6n06tqyzkk.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -203,8 +203,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "GestaoFinanceira.Client.duwcrr60oe.wasm": "GestaoFinanceira.Client.wasm",
-      "GestaoFinanceira.Client.amrljwit8g.pdb": "GestaoFinanceira.Client.pdb"
+      "GestaoFinanceira.Client.h80gdzpymo.wasm": "GestaoFinanceira.Client.wasm",
+      "GestaoFinanceira.Client.1lxs8xsoc4.pdb": "GestaoFinanceira.Client.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.l1ds2rhypd.js": "sha256-CU8oL4L0VAwGe3hCyxZDy7keJq9dcsWED0JKqrvlUb4="
@@ -416,10 +416,10 @@
       "WindowsBase.p8fley4coh.wasm": "sha256-aRYzLqbGeHVYVMueB/ppfGVKTJ8jPRnWCHEGfFXiSG4=",
       "mscorlib.gr56bjb982.wasm": "sha256-rGm+fePHcRdNKLvNvl2ALv504HZc6ufZZqaXcOLo8HQ=",
       "netstandard.3vbiim3d7s.wasm": "sha256-j+YhS0xT+ZUStadRqdIFX5q3MfD09IJhCcEkJ3y3Kh0=",
-      "GestaoFinanceira.Client.duwcrr60oe.wasm": "sha256-RdjWV3DJs2FKTbkmqE/7dUzBtiI/vRgs3KQ1r5EbQ88="
+      "GestaoFinanceira.Client.h80gdzpymo.wasm": "sha256-MQ6goUKv4kcuBebhuUg4YwM7Y8PvghrAgZMPb3DNQew="
     },
     "pdb": {
-      "GestaoFinanceira.Client.amrljwit8g.pdb": "sha256-7q2weTuLCr67BZVfePSkYuPJQdpDdoFNuFmni1iuL+E="
+      "GestaoFinanceira.Client.1lxs8xsoc4.pdb": "sha256-BYVoH/EL90hsN1O5MHdjdcM9TT1KAIVzMA/FpqmIh14="
     }
   },
   "cacheBootResources": true,

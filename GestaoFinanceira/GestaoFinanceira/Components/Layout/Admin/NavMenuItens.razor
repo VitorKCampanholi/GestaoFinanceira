@@ -1,0 +1,95 @@
+﻿@implements IDisposable
+
+@inject NavigationManager NavigationManager
+
+
+<ul class="navbar-nav" id="navbar-nav">
+    <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+
+    <li class="nav-item">
+        >
+        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Painel </span>
+        </NavLink>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+            <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Cadastro</span>
+        </a>
+        <div class="collapse menu-dropdown" id="sidebarDashboards">
+            <ul class="nav nav-sm flex-column">
+
+                <li class="nav-item">
+
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter">
+                        Empresa
+                    </NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="weather">
+                        Conta
+                    </NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="weather">
+                        Categoria
+                    </NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="auth">
+                        Auth Required
+                    </NavLink>
+                </li>
+
+        
+            </ul>
+        </div>
+    </li> <!-- end Dashboard Menu -->
+
+
+
+    <li class="nav-item">
+        <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+            <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Contas</span> 
+        </a>
+        <div class="collapse menu-dropdown" id="sidebarLayouts">
+            <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                    <a href="layouts-horizontal.html" target="_blank" class="nav-link" data-key="t-horizontal">Receber</a>
+                </li>
+                <li class="nav-item">
+                    <a href="layouts-detached.html" target="_blank" class="nav-link" data-key="t-detached">Pagar</a>
+                </li>            
+            </ul>
+        </div>
+    </li> <!-- end Dashboard Menu -->
+</ul>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
+

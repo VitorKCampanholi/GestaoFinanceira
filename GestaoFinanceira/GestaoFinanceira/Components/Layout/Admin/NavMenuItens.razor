@@ -6,38 +6,33 @@
 <ul class="navbar-nav" id="navbar-nav">
     <li class="menu-title"><span data-key="t-menu">Menu</span></li>
 
-    <li class="nav-item">
-        >
+    <li class="nav-item">      
         <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Painel </span>
         </NavLink>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-            <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Cadastro</span>
+        <a class="nav-link menu-link" href="#sidebarRegisters" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+            <i class="ri-file-list-3-line"></i> <span data-key="t-registers">Cadastro</span>
         </a>
         <div class="collapse menu-dropdown" id="sidebarDashboards">
             <ul class="nav nav-sm flex-column">
-
+            
                 <li class="nav-item">
-
-                </li>
-
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="counter">
+                    <NavLink class="nav-link" href="/Company/List">
                         Empresa
                     </NavLink>
                 </li>
 
                 <li class="nav-item">
-                    <NavLink class="nav-link" href="weather">
+                    <NavLink class="nav-link" href="/Account/List">
                         Conta
                     </NavLink>
                 </li>
 
                 <li class="nav-item">
-                    <NavLink class="nav-link" href="weather">
+                    <NavLink class="nav-link" href="/Category/List">
                         Categoria
                     </NavLink>
                 </li>
@@ -56,17 +51,19 @@
 
 
     <li class="nav-item">
-        <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-            <i class="ri-layout-3-line"></i> <span data-key="t-layouts">Contas</span> 
+        <a class="nav-link menu-link" href="#sidebarAccount" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+            <i class="ri-money-dollar-circle-line"></i> <span data-key="t-account">Contas</span> 
         </a>
-        <div class="collapse menu-dropdown" id="sidebarLayouts">
+        <div class="collapse menu-dropdown" id="sidebarAccount">
             <ul class="nav nav-sm flex-column">
+
                 <li class="nav-item">
-                    <a href="layouts-horizontal.html" target="_blank" class="nav-link" data-key="t-horizontal">Receber</a>
+                    <NavLink href="/AccountManagement/Pay/List"  class="nav-link" data-key="t-Pay">Pagar</NavLink>
                 </li>
+
                 <li class="nav-item">
-                    <a href="layouts-detached.html" target="_blank" class="nav-link" data-key="t-detached">Pagar</a>
-                </li>            
+                    <NavLink href="/AccountManagement/Receive/List"  class="nav-link" data-key="t-Receive">Receber</NavLink>
+                </li>
             </ul>
         </div>
     </li> <!-- end Dashboard Menu -->

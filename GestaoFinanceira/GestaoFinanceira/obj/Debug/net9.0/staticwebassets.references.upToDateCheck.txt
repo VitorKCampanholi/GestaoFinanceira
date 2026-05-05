@@ -81,3 +81,4 @@ C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\obj\
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\obj\Debug\net9.0\staticwebassets.build.json
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\obj\Debug\net9.0\staticwebassets.build.json
 C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\obj\Debug\net9.0\staticwebassets.build.json
+C:\ProjetoPessoal\GestaoFinanceira\GestaoFinanceira\GestaoFinanceira.Client\obj\Debug\net9.0\staticwebassets.build.json

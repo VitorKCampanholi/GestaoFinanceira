@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoFinanceira", "GestaoF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoFinanceira.Client", "GestaoFinanceira\GestaoFinanceira.Client\GestaoFinanceira.Client.csproj", "{282DCCEC-761A-4F32-8A0B-04615E689C5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Domain", "Gestao.Domain\Gestao.Domain.csproj", "{740360B1-232C-497D-A708-2FEDE64321C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{282DCCEC-761A-4F32-8A0B-04615E689C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{282DCCEC-761A-4F32-8A0B-04615E689C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{282DCCEC-761A-4F32-8A0B-04615E689C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{740360B1-232C-497D-A708-2FEDE64321C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740360B1-232C-497D-A708-2FEDE64321C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740360B1-232C-497D-A708-2FEDE64321C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740360B1-232C-497D-A708-2FEDE64321C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,5 +8,6 @@ namespace Gestao.Domain
 {
     internal class Account
     {
+
     }
 }

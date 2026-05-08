@@ -1,4 +1,5 @@
 ﻿using Gestao.Domain;
+using GestaoFinanceira.Client.Libraries.Utilities;
 
 namespace GestaoFinanceira.Data.Repositories
 {
@@ -10,11 +11,8 @@ namespace GestaoFinanceira.Data.Repositories
         {
             _db = db;
         }
-
-        // CRUD
-        // TODO - Fazer Paginação
-
-        public List<Company> GetAll()
+           
+        public PaginatedList<Company> GetAll()
         {
             throw new NotImplementedException();
         }

@@ -13,15 +13,23 @@ namespace GestaoFinanceira.Data.Repositories
             _db = db;
         }
 
-        public async Task<PaginatedList<Account>> GetAll(int companyId, int pageIdex, int pageSize)
+        public async Task<PaginatedList<Account>> GetAll(int companyId, int pageIdex, int pageSize, string searchWord = "")
         {
 
-            var items = await _db.Accounts.Where(a => a.CompanyId == companyId).
-                   Skip((pageIdex - 1) * pageSize).
-                   Take(pageSize).ToListAsync();
+            var items = await _db.Accounts
+                   .Where(a => a.CompanyId == companyId)
+                   .Where(a => a.Description.Contains(searchWord))
+                   .OrderBy(a =>a.Description)
+                   .Skip((pageIdex - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToListAsync();
             ;
 
-            var count = await _db.Accounts.Where(a => a.CompanyId == companyId).CountAsync();
+            var count = await _db.Accounts
+                   .Where(a => a.CompanyId == companyId)
+                   .Where(a => a.Description
+                   .Contains(searchWord))
+                   .CountAsync();
             int totalPages = (int)Math.Ceiling((decimal)count / pageSize);
 
             return new PaginatedList<Account>(items, pageIdex, totalPages);

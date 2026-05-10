@@ -18,9 +18,11 @@ namespace GestaoFinanceira.Data.Repositories
         public async Task<PaginatedList<Category>> GetAll(int companyId, int pageIdex, int pageSize)
         {
 
-            var items = await _db.Categories.Where(a => a.CompanyId == companyId).
-                   Skip((pageIdex - 1) * pageSize).
-                   Take(pageSize).ToListAsync();
+            var items = await _db.Categories.Where(a => a.CompanyId == companyId)
+                   .OrderBy(a => a.Name)
+                   .Skip((pageIdex - 1) * pageSize)
+                   .Take(pageSize)
+                   .ToListAsync();
             ;
 
             var count = await _db.Categories.Where(a => a.CompanyId == companyId).CountAsync();

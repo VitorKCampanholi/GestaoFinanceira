@@ -10,7 +10,7 @@ namespace GestaoFinanceira.Data
         public DbSet<Account>  Accounts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<FinancialTransction> FinancialTransctions { get; set; }
-        public DbSet<DocumentAttachment> DocumentAttachments { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -18,6 +18,8 @@ namespace GestaoFinanceira.Data
             base.OnModelCreating(builder);
 
             builder.Entity<FinancialTransction>().Property(a => a.Repeat).HasConversion<String>();
+
+            builder.Entity<FinancialTransction>().Property(a => a.TypeFinancialTransction).HasConversion<String>();
         }
     }
 }

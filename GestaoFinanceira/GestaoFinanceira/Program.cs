@@ -1,10 +1,13 @@
+using Gestao.Domain.Enums;
 using GestaoFinanceira.Client.Pages;
 using GestaoFinanceira.Components;
 using GestaoFinanceira.Components.Account;
 using GestaoFinanceira.Data;
+using GestaoFinanceira.Data.Repositories;
 using GestaoFinanceira.libraries.Email;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Mail;
@@ -17,6 +20,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 
+#region Config Of Authetication
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
@@ -27,24 +31,25 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
-
     .AddGoogle(options =>
     {
         options.ClientId = builder.Configuration.GetValue<string>("OAuth:Google:ClientId")!;
         options.ClientSecret = builder.Configuration.GetValue<string>("OAuth:Google:ClientSecret")!;
     })
-       .AddFacebook(options =>
+    .AddFacebook(options =>
        {
            options.ClientId = builder.Configuration["OAuth:Facebook:ClientId"];
            options.ClientSecret = builder.Configuration["OAuth:Facebook:ClientSecret"];
        })
-       .AddMicrosoftAccount(options =>
+    .AddMicrosoftAccount(options =>
        {
            options.ClientId = builder.Configuration["OAuth:Microsoft:ClientId"];
            options.ClientSecret = builder.Configuration["OAuth:Microsoft:ClientSecret"];
        })
     .AddIdentityCookies();
+#endregion
 
+#region Config Of DataBase & Authentication
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -54,7 +59,9 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
+#endregion
 
+#region Dependency Injection
 builder.Services.AddSingleton<SmtpClient>(options =>
 {
     var smtp = new SmtpClient();
@@ -69,8 +76,15 @@ builder.Services.AddSingleton<SmtpClient>(options =>
     return smtp;
 }
     );
-
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IFinancialTransactionsRepository, FinancialTransactionsRepository>();
+
+#endregion
 
 var app = builder.Build();
 
@@ -100,5 +114,58 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+#region Minimal APIs
+
+int pageSize = builder.Configuration.GetValue<int>("Pagination:PageSize");
+
+app.MapGet("/api/categories", async (ICategoryRepository repository,
+    [FromQuery] int companyId,
+    [FromQuery] int pageIndex) =>
+{
+    var data = await repository.GetAll(companyId, pageIndex, pageSize);
+
+    return Results.Ok(data);
+
+});
+
+app.MapGet("/api/companies", async (
+    ICompanyRepository repository,
+    [FromQuery] Guid applicationUserId,
+    [FromQuery] int pageIndex,
+    [FromQuery] string searchWord) =>
+{
+    var data = await repository.GetAll(applicationUserId, pageIndex, pageSize, searchWord);
+
+    return Results.Ok(data);
+});
+
+app.MapGet("/api/accounts", async (
+    IAccountRepository repository,
+    [FromQuery] int companyId,
+    [FromQuery] int pageIndex,
+    [FromQuery] string searchWord) =>
+{
+    var data = await repository.GetAll(companyId, pageIndex, pageSize, searchWord);
+
+    return Results.Ok(data);
+});
+
+app.MapGet("/api/financialtransactions", async (
+    IFinancialTransactionsRepository repository,
+    [FromQuery] TypeFinancialTransction type,
+    [FromQuery] int companyId,
+    [FromQuery] int pageIndex,
+    [FromQuery] string searchWord
+  
+ ) =>
+{
+
+    var data = await repository.GetAll(companyId, pageIndex, pageSize, type, searchWord);
+    return Results.Ok(data);
+});
+
+
+#endregion
 
 app.Run();

@@ -18,6 +18,12 @@ namespace GestaoFinanceira.Data.Repositories
         public async Task<PaginatedList<Category>> GetAll(int companyId, int pageIdex, int pageSize)
         {
 
+            //if (pageIdex < 1)
+            //    pageIdex = 1;
+
+            //if (pageSize <= 0)
+            //    pageSize = 10;
+
             var items = await _db.Categories.Where(a => a.CompanyId == companyId)
                    .OrderBy(a => a.Name)
                    .Skip((pageIdex - 1) * pageSize)

@@ -18,7 +18,7 @@ namespace GestaoFinanceira.Migrations
             migrationBuilder.AddColumn<DateTimeOffset>(
                 name:"BalanceDate",
                 table:"Accounts",
-                type:"datetimeoffse",
+                type:"datetimeoffset",
                 nullable:false
                 );
         }

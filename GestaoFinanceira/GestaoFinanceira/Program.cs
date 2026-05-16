@@ -119,6 +119,7 @@ app.MapAdditionalIdentityEndpoints();
 
 int pageSize = builder.Configuration.GetValue<int>("Pagination:PageSize");
 
+// API Categories minimal
 app.MapGet("/api/categories", async (ICategoryRepository repository,
     [FromQuery] int companyId,
     [FromQuery] int pageIndex) =>
@@ -128,7 +129,7 @@ app.MapGet("/api/categories", async (ICategoryRepository repository,
     return Results.Ok(data);
 
 });
-
+// API Companies minimal
 app.MapGet("/api/companies", async (
     ICompanyRepository repository,
     [FromQuery] Guid applicationUserId,
@@ -139,7 +140,7 @@ app.MapGet("/api/companies", async (
 
     return Results.Ok(data);
 });
-
+// API accounts minimal
 app.MapGet("/api/accounts", async (
     IAccountRepository repository,
     [FromQuery] int companyId,
@@ -150,7 +151,7 @@ app.MapGet("/api/accounts", async (
 
     return Results.Ok(data);
 });
-
+// API financialtransactions minimal
 app.MapGet("/api/financialtransactions", async (
     IFinancialTransactionsRepository repository,
     [FromQuery] TypeFinancialTransction type,

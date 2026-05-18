@@ -1,5 +1,8 @@
 ﻿@page "/Company/List"
-
+@using Gestao.Domain
+@using Gestao.Domain.Libraries.Utilities
+@inject ICompanyRepository repository 
+@inject AuthenticationStateProvider provider
 @attribute [Authorize]
 @rendermode InteractiveAuto
 
@@ -7,17 +10,17 @@
     <div class="card-header align-items-center d-flex">
         <h4 class="card-title mb-0 flex-grow-1">Empresas</h4>
         <div class="flex-shrink-0">
-            <button type="button" class="btn btn-primary btn-sm material-shadow-none">
+            <a href="/Company/Add" class="btn btn-primary btn-sm material-shadow-none">
                 <i class="ri-file-list-3-line align-middle"></i> Cadastrar
-            </button>
+            </a>
         </div>
     </div><!-- end card header -->
 
     <div class="card-body">
         <div class="col-lg-6">
             <div class="input-group">
-                <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" placeholder="Digite sua pesquisa">
-                <button class="btn btn-outline-success material-shadow-none" type="button" id="button-addon2">Pesquisar</button>
+                <input type="text" class="form-control" placeholder="Digite sua pesquisa" @bind="SearchWord">
+                <button class="btn btn-outline-success material-shadow-none" type="button" @onclick="OnSearch">Pesquisar</button>
             </div>
         </div>
         <div class="table-responsive mt-4" style="margin-left: -16px; margin-right: -16px">
@@ -27,10 +30,23 @@
                         <th scope="col">Nome Fantasia</th>
                         <th scope="col">CNPJ</th>
                         <th scope="col">Endereço</th>
-                        <th scope="col">Ação</th>                     
+                        <th scope="col">Ação</th>
                     </tr>
                 </thead>
-                <tbody>
+                <>
+
+                @if (Paginated == null)
+                {
+                    <td colspan="4">Carregando...</td>
+                }
+                else if (Paginated.Items.Count == 0)
+                {
+                    <tr>
+                        <td colspan="4">Nenhnum registro!</td>
+                    </tr>
+                }
+                else
+                {
                     <tr>
                         <td>
                             Mercado Costa
@@ -44,9 +60,10 @@
                             <a href="#" class="btn btn-sm btn-soft-info"><i class="ri-edit-line"></i></a>
                             <a href="#" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line"></i></a>
                         </td>
-                    </tr><!-- end tr -->              
-                </tbody><!-- end tbody -->
-            </table><!-- end table -->
+                    </tr>
+                }
+                </>
+            </table>
         </div>
 
         <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
@@ -80,5 +97,30 @@
 </div>
 
 @code {
+    private Guid ApplicationsUserId;
+    private PaginatedList<Company>? Paginated;
+
+    private string SearchWord = string.Empty;
+    private void OnSearch()
+    {
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        {
+           await GetAuthenticationUserId();
+           Paginated = await repository.GetAll(ApplicationsUserId, 1, 0, SearchWord);
+        }
+    }
+
+    private async Task GetAuthenticationUserId()
+    {
+        var authenticationState = await provider.GetAuthenticationStateAsync();
+        var userId = authenticationState.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier);
+
+        if(userId != null)
+        Guid.TryParse(userId.Value, out ApplicationsUserId);
+    }
 
 }

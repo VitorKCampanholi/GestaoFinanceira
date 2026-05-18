@@ -1,6 +1,7 @@
 ﻿using Gestao.Domain;
 using Gestao.Domain.Enums;
-using GestaoFinanceira.Client.Libraries.Utilities;
+using Gestao.Domain.Libraries.Utilities;
+using GestaoFinanceira.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestaoFinanceira.Data.Repositories

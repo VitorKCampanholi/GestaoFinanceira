@@ -1,8 +1,7 @@
 ﻿using Gestao.Domain;
-using GestaoFinanceira.Client.Libraries.Utilities;
+using Gestao.Domain.Libraries.Utilities;
+using GestaoFinanceira.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
-using static GestaoFinanceira.Data.Repositories.CategoryRepository;
 
 namespace GestaoFinanceira.Data.Repositories
 {

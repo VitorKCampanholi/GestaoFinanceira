@@ -4,6 +4,8 @@ using GestaoFinanceira.Components;
 using GestaoFinanceira.Components.Account;
 using GestaoFinanceira.Data;
 using GestaoFinanceira.Data.Repositories;
+using GestaoFinanceira.Domain;
+using GestaoFinanceira.Domain.Repositories;
 using GestaoFinanceira.libraries.Email;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;

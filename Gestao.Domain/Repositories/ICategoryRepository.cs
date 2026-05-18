@@ -1,7 +1,7 @@
 ﻿using Gestao.Domain;
-using GestaoFinanceira.Client.Libraries.Utilities;
+using Gestao.Domain.Libraries.Utilities;
 
-namespace GestaoFinanceira.Data.Repositories
+namespace GestaoFinanceira.Domain.Repositories
 {
     public interface ICategoryRepository
     {

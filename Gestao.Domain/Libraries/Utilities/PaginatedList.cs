@@ -1,4 +1,4 @@
-﻿namespace GestaoFinanceira.Client.Libraries.Utilities
+﻿namespace Gestao.Domain.Libraries.Utilities
 {
     public class PaginatedList<T>
     {

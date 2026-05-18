@@ -1,4 +1,5 @@
 using GestaoFinanceira.Data;
+using GestaoFinanceira.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace GestaoFinanceira.Components.Account

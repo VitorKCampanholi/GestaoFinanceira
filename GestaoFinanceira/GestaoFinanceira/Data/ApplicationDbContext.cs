@@ -1,4 +1,5 @@
 using Gestao.Domain;
+using GestaoFinanceira.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

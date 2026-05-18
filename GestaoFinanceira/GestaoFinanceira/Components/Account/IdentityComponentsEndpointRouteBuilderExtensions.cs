@@ -3,6 +3,7 @@ using System.Text.Json;
 using GestaoFinanceira.Components.Account.Pages;
 using GestaoFinanceira.Components.Account.Pages.Manage;
 using GestaoFinanceira.Data;
+using GestaoFinanceira.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;

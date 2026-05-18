@@ -1,6 +1,6 @@
 ﻿using Gestao.Domain;
 
-namespace GestaoFinanceira.Data.Repositories
+namespace GestaoFinanceira.Domain.Repositories
 {
     public interface IDocumentRepository
     {

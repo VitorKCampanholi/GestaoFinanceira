@@ -2,8 +2,14 @@ using GestaoFinanceira.Client.Services;
 using GestaoFinanceira.Domain.Repositories;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+
+builder.Services.AddScoped<IConfiguration>(options =>
+{
+    return builder.Configuration;
+});
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthenticationStateDeserialization();
@@ -15,6 +21,7 @@ builder.Services.AddScoped<HttpClient>(options =>
     httpClient.BaseAddress = new Uri("https://localhost:7133");
     return httpClient;
 });
+
 
 builder.Services.AddScoped<IAccountRepository, AccountService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryService>();

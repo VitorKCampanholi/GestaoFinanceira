@@ -17,6 +17,7 @@ using System.Net.Mail;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents()
@@ -79,6 +80,7 @@ builder.Services.AddSingleton<SmtpClient>(options =>
 }
     );
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
+
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

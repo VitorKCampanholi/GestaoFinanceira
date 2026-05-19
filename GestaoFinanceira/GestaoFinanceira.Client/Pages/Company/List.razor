@@ -1,8 +1,9 @@
 ﻿@page "/Company/List"
 @using Gestao.Domain
 @using Gestao.Domain.Libraries.Utilities
-@inject ICompanyRepository repository 
+@inject ICompanyRepository repository
 @inject AuthenticationStateProvider provider
+@inject IConfiguration configuration
 @attribute [Authorize]
 @rendermode InteractiveAuto
 
@@ -33,7 +34,7 @@
                         <th scope="col">Ação</th>
                     </tr>
                 </thead>
-                <>
+
 
                 @if (Paginated == null)
                 {
@@ -47,22 +48,31 @@
                 }
                 else
                 {
-                    <tr>
-                        <td>
-                            Mercado Costa
-                        </td>
-                        <td>
-                            12.000.125/0001-01
-                        </td>
-                        <td>Quadra 1 Bloc 2 LT 1-5</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-soft-success"><i class="ri-arrow-right-line me-1"></i>Selecionar</a>
-                            <a href="#" class="btn btn-sm btn-soft-info"><i class="ri-edit-line"></i></a>
-                            <a href="#" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line"></i></a>
-                        </td>
-                    </tr>
+
+                    @foreach (var itens in Paginated.Items)
+                    {
+                        <tr>
+                            <td>
+                                @itens.TradeName
+                            </td>
+
+                            <td>
+                                @itens.TaxId
+                            </td>
+
+                            <td>
+                                @itens.Address
+                            </td>
+
+                            <td>
+                                <a href="#" class="btn btn-sm btn-soft-success"><i class="ri-arrow-right-line me-1"></i>Selecionar</a>
+                                <a href="#" class="btn btn-sm btn-soft-info"><i class="ri-edit-line"></i></a>
+                                <a href="#" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line"></i></a>
+                            </td>
+                        </tr>
+                    }
                 }
-                </>
+
             </table>
         </div>
 
@@ -109,8 +119,9 @@
     protected override async Task OnInitializedAsync()
     {
         {
-           await GetAuthenticationUserId();
-           Paginated = await repository.GetAll(ApplicationsUserId, 1, 0, SearchWord);
+            var PageSize = configuration.GetValue<int>("Pagination:PageSize");
+            await GetAuthenticationUserId();
+            Paginated = await repository.GetAll(ApplicationsUserId, 1, PageSize, SearchWord);
         }
     }
 
@@ -119,8 +130,8 @@
         var authenticationState = await provider.GetAuthenticationStateAsync();
         var userId = authenticationState.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier);
 
-        if(userId != null)
-        Guid.TryParse(userId.Value, out ApplicationsUserId);
+        if (userId != null)
+            Guid.TryParse(userId.Value, out ApplicationsUserId);
     }
 
 }

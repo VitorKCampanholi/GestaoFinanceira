@@ -49,4 +49,8 @@
     <Folder Include="Components\Pages\Financial\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\GestaoFinanceira.Client\Pages\Company\Paginatiom.razor" Link="Paginatiom.razor" />
+  </ItemGroup>
+
 </Project>

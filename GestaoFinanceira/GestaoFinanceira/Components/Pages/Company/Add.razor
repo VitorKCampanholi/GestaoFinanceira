@@ -1,5 +1,6 @@
 ﻿@page "/Company/Add"
 @rendermode InteractiveServer
+@inject IJSRuntime JS
 
 <PageTitle>
     Empresa - Cadastro
@@ -79,5 +80,8 @@
     </div>
 </div>
 @code {
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("CompanyMaskInit");
+    }
 }

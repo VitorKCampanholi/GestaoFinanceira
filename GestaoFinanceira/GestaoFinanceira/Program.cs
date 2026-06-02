@@ -1,4 +1,5 @@
 using Gestao.Domain.Enums;
+using Gestao.Domain.Libraries.Services;
 using GestaoFinanceira.Client.Pages;
 using GestaoFinanceira.Components;
 using GestaoFinanceira.Components.Account;
@@ -11,8 +12,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Mail;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,13 +83,14 @@ builder.Services.AddSingleton<SmtpClient>(options =>
 }
     );
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
-
+builder.Services.AddSingleton<ICepservice, Cepservice>();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IFinancialTransactionsRepository, FinancialTransactionsRepository>();
+
 
 #endregion
 

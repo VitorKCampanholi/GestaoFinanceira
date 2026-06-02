@@ -12,7 +12,7 @@
         <div class="card">
 
             <EditForm Model="Company" OnValidSubmit="Submit" FormName="Register">
-                <DataAnnotationsValidator/> 
+                <DataAnnotationsValidator />
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Cadastrar Empresa</h4>
                 </div>
@@ -23,7 +23,7 @@
                         <div class="col-xxl-3 col-md-6">
                             <label for="razaoSocial" class="form-label">Razão Social</label>
                             <InputText @bind-Value="Company!.LegalName" type="text" autocomplete="not" class="form-control" id="razaoSocial" />
-                            <ValidationMessage For="()=> Company!.LegalName"/>
+                            <ValidationMessage For="() => Company!.LegalName" />
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
@@ -43,7 +43,17 @@
                     <div class="row mt-3">
                         <div class="col-xxl-3 col-md-6">
                             <label for="cep" class="form-label">CEP</label>
-                            <InputText @bind-Value="Company!.PostalCode" type="text" autocomplete="not" class="form-control" id="cep" />
+                            <div class="input-group">
+                                <InputText @bind-Value="Company!.PostalCode" type="text" autocomplete="not" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" @oninput="OnCepEntry" />
+                                @if (Loading)
+                                {
+                                    <span class="input-group-text input-group-text-bg-transparent">
+                                        <div class=" spinner-border-sm spinner-border text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </span>
+                                }
+                            </div>
                             <ValidationMessage For="() => Company!.PostalCode" />
                         </div>
 
@@ -84,7 +94,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between">
                                 <a href="/Company/List" class="btn btn-light">Voltar</a>
-                                <button  type="submit" class="btn btn-primary">Salvar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
                             </div>
                         </div>
                     </div>
@@ -98,14 +108,10 @@
 
 
 @code {
+
     [SupplyParameterFromForm]
-    private Gestao.Domain.Company? Company { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Company = new();
-    }
-
+    private Gestao.Domain.Company Company { get; set; } = new();
+    private bool Loading { get; set; } = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JS.InvokeVoidAsync("CompanyMaskInit");
@@ -113,6 +119,33 @@
 
     private void Submit()
     {
-        
+
+    }
+
+    private async Task OnCepEntry(ChangeEventArgs e)
+    {
+        if (e.Value!.ToString()!.Length == 10)
+        {
+            Loading = true;
+            Company.State = string.Empty;
+            Company.City = string.Empty;
+            Company.Neighborhood = string.Empty;
+            Company.Address = string.Empty;
+            Task.Delay(3000);
+
+            var address = await CepService.SearchByPostalCode(e.Value.ToString()!);
+            if (address is null)
+            {
+                Loading = false;
+                return;
+            }
+
+
+            Company.State = address.UF;
+            Company.City = address.Localidade;
+            Company.Neighborhood = address.Bairro;
+            Company.Address = address.Logradouro;
+            Loading = false;
+        }
     }
 }

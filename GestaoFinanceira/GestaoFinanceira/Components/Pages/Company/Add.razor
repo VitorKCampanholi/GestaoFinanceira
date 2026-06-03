@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @inject IJSRuntime JS
 @inject ICepservice CepService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>
     Empresa - Cadastro
@@ -117,9 +118,10 @@
         await JS.InvokeVoidAsync("CompanyMaskInit");
     }
 
-    private void Submit()
+    private async Task Submit()
     {
-
+        Company.CreateDate = DateTimeOffset.Now;
+        Company.UserId = (await AthenticationHelper.GetAuthenticationUserIdAsync(AuthenticationStateProvider)).Value;
     }
 
     private async Task OnCepEntry(ChangeEventArgs e)
@@ -131,7 +133,7 @@
             Company.City = string.Empty;
             Company.Neighborhood = string.Empty;
             Company.Address = string.Empty;
-            Task.Delay(3000);
+            await Task.Delay(3000);
 
             var address = await CepService.SearchByPostalCode(e.Value.ToString()!);
             if (address is null)

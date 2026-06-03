@@ -1,9 +1,7 @@
 ﻿@page "/Company/List"
-@using Gestao.Domain
-@using Gestao.Domain.Libraries.Utilities
-@inject ICompanyRepository repository
-@inject AuthenticationStateProvider provider
-@inject IConfiguration configuration
+@inject ICompanyRepository CompanyRepository
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IConfiguration Configuration
 @attribute [Authorize]
 @rendermode InteractiveAuto
 <PageTitle>
@@ -99,14 +97,14 @@
 
     private async Task LoadDataAsync()
     {
-        Paginated = await repository.GetAll(ApplicationsUserId, PageIndex, PageSize, SearchWord);
+        Paginated = await CompanyRepository.GetAll(ApplicationsUserId, PageIndex, PageSize, SearchWord);
     }
 
     protected override async Task OnInitializedAsync()
     {
         {
-            PageSize = configuration.GetValue<int>("Pagination:PageSize");
-            await GetAuthenticationUserId();
+            PageSize = Configuration.GetValue<int>("Pagination:PageSize");
+            ApplicationsUserId = (await AthenticationHelper.GetAuthenticationUserIdAsync(AuthenticationStateProvider)).Value;
             await LoadDataAsync();
         }
     }
@@ -122,14 +120,6 @@
         PageIndex = pageNumber;
         await LoadDataAsync();
     }
-
-    private async Task GetAuthenticationUserId()
-    {
-        var authenticationState = await provider.GetAuthenticationStateAsync();
-        var userId = authenticationState.User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier);
-
-        if (userId != null)
-            Guid.TryParse(userId.Value, out ApplicationsUserId);
-    }
+    
 
 }

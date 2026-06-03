@@ -3,7 +3,8 @@
 @inject IJSRuntime JS
 @inject ICepservice CepService
 @inject AuthenticationStateProvider AuthenticationStateProvider
-
+@inject ICompanyRepository CompanyRepository
+@inject NavigationManager NavigationManager
 <PageTitle>
     Empresa - Cadastro
 </PageTitle>
@@ -122,6 +123,11 @@
     {
         Company.CreateDate = DateTimeOffset.Now;
         Company.UserId = (await AthenticationHelper.GetAuthenticationUserIdAsync(AuthenticationStateProvider)).Value;
+
+        await CompanyRepository.Add(Company);
+
+        await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso!");
+        NavigationManager.NavigateTo("/Company/List");
     }
 
     private async Task OnCepEntry(ChangeEventArgs e)

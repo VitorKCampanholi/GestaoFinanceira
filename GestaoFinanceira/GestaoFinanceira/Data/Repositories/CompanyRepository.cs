@@ -17,9 +17,6 @@ namespace GestaoFinanceira.Data.Repositories
         public async Task<PaginatedList<Company>> GetAll(Guid applicationUserId, int pageIdex, int pageSize, string searchWord = "")
         {
 
-
-
-
             var items = await _db.Campanies
                    .Where(a => a.UserId == applicationUserId)
                    .Where(a => a.TradeName

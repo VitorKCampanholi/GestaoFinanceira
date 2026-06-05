@@ -114,6 +114,8 @@
     [SupplyParameterFromForm]
     private Gestao.Domain.Company Company { get; set; } = new();
     private bool Loading { get; set; } = false;
+
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JS.InvokeVoidAsync("CompanyMaskInit");

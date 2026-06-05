@@ -21,6 +21,8 @@ namespace GestaoFinanceira.Data
             builder.Entity<FinancialTransction>().Property(a => a.Repeat).HasConversion<String>();
 
             builder.Entity<FinancialTransction>().Property(a => a.TypeFinancialTransction).HasConversion<String>();
+
+            builder.Entity<Company>().HasIndex(a => a.TaxId).IsUnique();
         }
     }
 }

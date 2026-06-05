@@ -1,10 +1,11 @@
 ﻿using GestaoFinanceira.Domain;
 using System.ComponentModel.DataAnnotations;
 using Gestao.Domain.Libraries.Validations;
+using Gestao.Domain.Interfaces;
 
 namespace Gestao.Domain
 {
-    public class Company
+    public class Company : ISoftDelete
     {
         public int Id { get; set; }
 
@@ -42,9 +43,9 @@ namespace Gestao.Domain
         public string Complement { get; set; } = string.Empty;   
 
         public DateTimeOffset CreateDate { get; set; }
-
+        public DateTimeOffset? DeletedAt { get; set; }
         public Guid UserId { get; set; }
-
         public ApplicationUser User { get; set; } = null!;
+       
     }
 }

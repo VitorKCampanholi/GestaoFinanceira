@@ -1,4 +1,5 @@
 using Gestao.Domain;
+using GestaoFinanceira.Data.Interceptors;
 using GestaoFinanceira.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,10 @@ namespace GestaoFinanceira.Data
         public DbSet<FinancialTransction> FinancialTransctions { get; set; }
         public DbSet<Document> Documents { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,6 +28,13 @@ namespace GestaoFinanceira.Data
             builder.Entity<FinancialTransction>().Property(a => a.TypeFinancialTransction).HasConversion<String>();
 
             builder.Entity<Company>().HasIndex(a => a.TaxId).IsUnique();
+
+            builder.Entity<ApplicationUser>().HasQueryFilter(a => a.DeletedAt == null);
+            builder.Entity<Company>().HasQueryFilter(a => a.DeletedAt == null);
+            builder.Entity<Document>().HasQueryFilter(a => a.DeletedAt == null);
+            builder.Entity<Category>().HasQueryFilter(a => a.DeletedAt == null);
+            builder.Entity<Account>().HasQueryFilter(a => a.DeletedAt == null);
+            builder.Entity<FinancialTransction>().HasQueryFilter(a => a.DeletedAt == null);           
         }
     }
 }

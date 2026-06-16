@@ -1,3 +1,5 @@
+using Blazored.LocalStorage;
+using GestaoFinanceira.Client.Libraries.Notifications;
 using GestaoFinanceira.Client.Services;
 using GestaoFinanceira.Domain.Repositories;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -22,6 +24,8 @@ builder.Services.AddScoped<HttpClient>(options =>
     return httpClient;
 });
 
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<CompanyOnSelectedNotification>();
 
 builder.Services.AddScoped<IAccountRepository, AccountService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryService>();

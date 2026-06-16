@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
-namespace GestaoFinanceira.Client.Helpers
+namespace GestaoFinanceira.Client.Libraries.Helpers
 {
     public class AthenticationHelper
     {

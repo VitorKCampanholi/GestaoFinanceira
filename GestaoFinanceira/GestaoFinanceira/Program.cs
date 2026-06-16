@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
 using System.Net;
 using System.Net.Mail;
+using Blazored.LocalStorage;
+using GestaoFinanceira.Client.Libraries.Notifications;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -84,6 +86,8 @@ builder.Services.AddSingleton<SmtpClient>(options =>
     );
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
 builder.Services.AddSingleton<ICepservice, Cepservice>();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<CompanyOnSelectedNotification>();
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

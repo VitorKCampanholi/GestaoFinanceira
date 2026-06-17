@@ -1,12 +1,13 @@
 ﻿@page "/Company/List"
-@using GestaoFinanceira.Client.Libraries.Constants
-@using GestaoFinanceira.Client.Libraries.Helpers
+
 @inject ICompanyRepository CompanyRepository
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IConfiguration Configuration
 @inject ILocalStorageService LocalStorage
+@inject CompanyOnSelectedNotification Notification
 @attribute [Authorize]
 @rendermode InteractiveAuto
+
 <PageTitle>
     Empresa - Lista
 </PageTitle>
@@ -128,6 +129,6 @@
     {
         await LocalStorage.SetItemAsync(AppConstants.LocalStorageCampany,company);
 
-
+        Notification.NotificationOnselected();
     }
 }

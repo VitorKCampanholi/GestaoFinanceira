@@ -1,6 +1,8 @@
 ﻿@implements IDisposable
-
+@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+@inject CompanyOnSelectedNotification Notification
+@inject ILocalStorageService LocalStorage
 
 
 <ul class="navbar-nav" id="navbar-nav">
@@ -19,11 +21,13 @@
         <div class="collapse menu-dropdown" id="sidebarRegisters">
             <ul class="nav nav-sm flex-column">
 
+
                 <li class="nav-item">
                     <NavLink class="nav-link" href="/Company/List">
                         Empresa
                     </NavLink>
                 </li>
+
                 @if (companySelected)
                 {
                     <li class="nav-item">
@@ -31,13 +35,14 @@
                             Conta
                         </NavLink>
                     </li>
+
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Category/List">
+                            Categoria
+                        </NavLink>
+                    </li>
                 }
 
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Category/List">
-                        Categoria
-                    </NavLink>
-                </li>
 
 
             </ul>
@@ -76,8 +81,17 @@
 
     protected override void OnInitialized()
     {
-        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+        Notification.OnCompanySelected += OnCompanySelected;
+
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        companySelected = await LocalStorage.ContainKeyAsync(AppConstants.LocalStorageCampany);
+        StateHasChanged();
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -85,10 +99,15 @@
         currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
         StateHasChanged();
     }
+    public void OnCompanySelected()
+    {
+        companySelected = true;
+    }
 
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
+        Notification.OnCompanySelected -= OnCompanySelected;
     }
 }
 

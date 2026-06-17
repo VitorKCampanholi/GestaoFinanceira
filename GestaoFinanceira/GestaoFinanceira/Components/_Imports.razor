@@ -4,15 +4,21 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+
 @using GestaoFinanceira
+
 @using GestaoFinanceira.Client
 @using GestaoFinanceira.Components
-@using Microsoft.AspNetCore.Authorization
-@using Gestao.Domain.Libraries.Services
 @using GestaoFinanceira.Client.Libraries.Helpers
-@using GestaoFinanceira.Domain.Repositories
-@using Blazored.LocalStorage
 @using GestaoFinanceira.Client.Libraries.Constants
+@using GestaoFinanceira.Client.Libraries.Notifications
+
+@using Gestao.Domain
+@using Gestao.Domain.Libraries.Services
+@using GestaoFinanceira.Domain.Repositories
+
+@using Blazored.LocalStorage

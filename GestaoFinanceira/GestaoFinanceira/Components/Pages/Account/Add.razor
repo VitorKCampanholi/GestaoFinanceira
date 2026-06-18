@@ -1,7 +1,87 @@
 ﻿@page "/Account/Add"
 
-<h3>Add</h3>
+@using GestaoFinanceira.Client.Libraries.Helpers
+@rendermode InteractiveServer
+@inject IJSRuntime JS
+@inject IAccountRepository AccountRepository
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
+
+<PageTitle>
+    Conta - Cadastro
+</PageTitle>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+            <EditForm Model="Account" OnValidSubmit="Submit" FormName="Register">
+                <DataAnnotationsValidator />
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Cadastrar Conta</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="description" class="form-label">Descrição/Nome</label>
+                            <InputText @bind-Value="Account!.Description" autocomplete="not" class="form-control" id="description" />
+                            <ValidationMessage For="() => Account!.Description" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="balance" class="form-label">Saldo Inicial</label>
+                            <InputNumber @bind-Value="Account!.Balance" autocomplete="not" class="form-control" id="balance" />
+                            <ValidationMessage For="() => Account!.Balance" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="balanceDate" class="form-label">Data de abertura da conta</label>
+                            <InputDate @bind-Value="Account!.BalanceDate" autocomplete="not" class="form-control" id="balanceDate" />
+                            <ValidationMessage For="() => Account!.BalanceDate" />
+                        </div>
+
+                    </div>
+                   
+                    <div class="row mt-3">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between">
+                                <a href="/Account/List" class="btn btn-light">Voltar</a>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </EditForm>
+
+        </div>
+    </div>
+</div>
+
 
 @code {
+
+    [SupplyParameterFromForm]
+    private Account Account { get; set; } = new() {BalanceDate = DateTimeOffset.Now};
+    private Company? Company;
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
+    }
+
+    private async Task Submit()
+    {
+        Account.CreateDate = DateTimeOffset.Now;
+        Account.CompanyId = Company!.Id;
+
+        await AccountRepository.Add(Account);
+
+        await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso!");
+        NavigationManager.NavigateTo("/Account/List");
+    }
 
 }

@@ -1,6 +1,7 @@
 ﻿@page "/Account/List"
 @attribute [Authorize]
 @rendermode InteractiveAuto
+
 @inject IAccountRepository AccountRepository
 @inject IConfiguration Configuration
 @inject ILocalStorageService LocalStorage
@@ -26,6 +27,7 @@
                 <button class="btn btn-outline-success material-shadow-none" type="button" @onclick="OnSearch">Pesquisar</button>
             </div>
         </div>
+
         <div class="table-responsive mt-4" style="margin-left: -16px; margin-right: -16px">
             <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
                 <thead class="text-muted table-light">
@@ -40,9 +42,11 @@
 
                     @if (Paginated == null)
                     {
+                        <tr>
                     <td colspan="4">
                         Carregando...
                     </td>
+                    </tr>
                 }
                 else if (Paginated.Items.Count == 0)
                 {
@@ -63,7 +67,7 @@
                             </td>
 
                             <td>
-                                @item.BalanceDate
+                                @item.BalanceDate.Date.ToShortDateString()
                             </td>
 
                             <td>
@@ -79,27 +83,29 @@
         <Pagination Paginated="@Paginated" OnPageChanged="@OnPageChanged" />
 
     </div>
+
+
 </div>
+
 @code {
 
     private int PageIndex = 1;
     private int PageSize;
-    private PaginatedList<Account>? Paginated;
     private string SearchWord = string.Empty;
-    private Company? Company;
+    private PaginatedList<Account>? Paginated;
+    private Company? Company;   
+   
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        {
-            PageSize = Configuration.GetValue<int>("Pagination:PageSize");
-        }
+        PageSize = Configuration.GetValue<int>("Pagination:PageSize");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
             return;
-        await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
+        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
         await LoadDataAsync();
         StateHasChanged();
     }

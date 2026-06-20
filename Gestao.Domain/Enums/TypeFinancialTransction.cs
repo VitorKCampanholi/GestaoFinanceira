@@ -8,8 +8,8 @@ namespace Gestao.Domain.Enums
 {
     public enum TypeFinancialTransction
     {
-        Pay,
-            Receive
+        Pagar,
+            Receber
 
     }
 }

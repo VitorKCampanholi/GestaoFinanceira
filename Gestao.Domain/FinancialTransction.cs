@@ -17,14 +17,14 @@ namespace Gestao.Domain
         public string Description { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public Recurrence Repeat { get; set; }
-        public int RepeatTimes { get; set; }
-        public decimal InteresPenalty { get; set; }
-        public decimal Discount {  get; set; }       
-        public decimal AmoundPaid { get; set; }
+        public int? RepeatTimes { get; set; }
+        public decimal? InteresPenalty { get; set; }
+        public decimal? Discount {  get; set; }       
+        public decimal? AmoundPaid { get; set; }
         public string? Observation {  get; set; }
         public DateTimeOffset CreateDate {  get; set; }
         public DateTimeOffset? DeletedAt { get; set; }
-        public DateTimeOffset PaymentDate { get; set; }
+        public DateTimeOffset? PaymentDate { get; set; }
         public DateTimeOffset ReferenceDate { get; set; }
         public DateTimeOffset DueDate { get; set; }
         public ICollection<Document>? Documents {  get; set; }

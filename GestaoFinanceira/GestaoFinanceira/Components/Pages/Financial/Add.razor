@@ -42,6 +42,7 @@
                             <InputSelect @bind-Value="FinancialTransaction!.CategoryId"
                                          class="form-select"
                                          id="category">
+                                <option value="0">--Selecione--</option>
                                 @if (Categories is not null)
                                 {
                                     @foreach (var category in Categories)
@@ -58,6 +59,7 @@
                             <InputSelect @bind-Value="FinancialTransaction!.Account"
                                          class="form-select"
                                          id="account">
+                                <option value="0">--Selecione--</option>
                                 @if (Accounts is not null)
                                 {
                                     @foreach (var accounts in Accounts)
@@ -155,7 +157,9 @@
                                          id="amoundPaid" />
                             <ValidationMessage For="() => FinancialTransaction!.AmoundPaid" />
                         </div>
+
                     </div>
+
                     <div class="row">
                         <div class="col-12">
                             <div>
@@ -190,6 +194,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </EditForm>
@@ -205,7 +210,7 @@
     public string? Type { get; set; }
 
     [SupplyParameterFromForm]
-    private FinancialTransction FinancialTransaction { get; set; } = new();
+    private FinancialTransction FinancialTransaction { get; set; } = new() {ReferenceDate = DateTimeOffset.Now, DueDate = DateTimeOffset.Now, Amount = null};
     private Company? Company;
     private List<Category>? Categories { get; set; }
     private List<Account>? Accounts { get; set; }
@@ -225,13 +230,15 @@
 
     private async Task Submit()
     {
+
+        FinancialTransaction.TypeFinancialTransction = (Type == TypeFinancialTransction.Pagar.ToString()) ? TypeFinancialTransction.Pagar : TypeFinancialTransction.Receber;
         FinancialTransaction.CreateDate = DateTimeOffset.Now;
-        //FinancialTransaction.CompanyId = FinancialTransction!.Id;
+        FinancialTransaction.CompanyId = Company!.Id;
 
         await FinancialTransactionsRepository.Add(FinancialTransaction);
 
         await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso!");
-        NavigationManager.NavigateTo("/Financial/List");
+        NavigationManager.NavigateTo($"/Financial/{Type}/List");
     }
 
     private void RepeatChanged()

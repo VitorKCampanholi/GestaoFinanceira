@@ -1,0 +1,145 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace GestaoFinanceira.Migrations
+{
+    /// <inheritdoc />
+    public partial class DataBaseV60 : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterColumn<int>(
+                name: "RepeatTimes",
+                table: "FinancialTransctions",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "PaymentDate",
+                table: "FinancialTransctions",
+                type: "datetimeoffset",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "datetimeoffset");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "InteresPenalty",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: true,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)");
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "DueDate",
+                table: "FinancialTransctions",
+                type: "datetimeoffset",
+                nullable: true,
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "datetimeoffset");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Discount",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: true,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Amount",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: true,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)");
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "AmoundPaid",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: true,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AlterColumn<int>(
+                name: "RepeatTimes",
+                table: "FinancialTransctions",
+                type: "int",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "PaymentDate",
+                table: "FinancialTransctions",
+                type: "datetimeoffset",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "datetimeoffset",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "InteresPenalty",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: false,
+                defaultValue: 0m,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<DateTimeOffset>(
+                name: "DueDate",
+                table: "FinancialTransctions",
+                type: "datetimeoffset",
+                nullable: false,
+                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                oldClrType: typeof(DateTimeOffset),
+                oldType: "datetimeoffset",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Discount",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: false,
+                defaultValue: 0m,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "Amount",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: false,
+                defaultValue: 0m,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<decimal>(
+                name: "AmoundPaid",
+                table: "FinancialTransctions",
+                type: "decimal(18,2)",
+                nullable: false,
+                defaultValue: 0m,
+                oldClrType: typeof(decimal),
+                oldType: "decimal(18,2)",
+                oldNullable: true);
+        }
+    }
+}

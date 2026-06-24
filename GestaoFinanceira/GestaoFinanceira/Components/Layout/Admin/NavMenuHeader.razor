@@ -132,8 +132,15 @@
 
     private async void OnCompanySelected()
     {
-        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
-        companySelected = await LocalStorage.ContainKeyAsync(AppConstants.LocalStorageCampany);
+        try
+        {
+            Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
+            companySelected = await LocalStorage.ContainKeyAsync(AppConstants.LocalStorageCampany);
+        }
+        catch (JSDisconnectedException)
+        {
+            
+        }
     }
 
 

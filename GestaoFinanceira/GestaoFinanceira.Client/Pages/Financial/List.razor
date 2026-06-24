@@ -61,11 +61,11 @@
                     else
                     {
 
-                        @foreach (var item in Paginated.Items)
-                        {
-                            <tr>
+                      @foreach (var item in Paginated.Items)
+                    {
+                                 <tr>
                                 <td>
-                                    @item.ReferenceDate.Date.ToShortTimeString()
+                                    @item.ReferenceDate.Date.ToShortDateString()
                                 </td>
 
                                 <td>
@@ -73,7 +73,7 @@
                                 </td>
 
                                 <td>
-                                    @(item.AmoundPaid.HasValue? item.AmoundPaid.Value.ToString("C") : item.Amount.ToString("C"))
+                                    @(item.AmoundPaid.HasValue ? item.AmoundPaid.Value.ToString("C") : item.Amount.HasValue ? item.Amount.Value.ToString("C") : "-")
                                 </td>
 
                                 <td>
@@ -81,6 +81,7 @@
                                     <a href="Financial/@Type/Detail/@item.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line"></i></a>
                                 </td>
                             </tr>
+                            
                         }
                     }
                 </tbody>

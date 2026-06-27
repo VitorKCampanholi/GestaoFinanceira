@@ -11,6 +11,7 @@ namespace Gestao.Domain
     {
         public int Id { get; set; }
         public string Path { get; set; } = null!;
+        public string Name { get; set; } = null!;  
         public int? FinancialTransactionId { get; set; }
         public FinancialTransction? FinancialTransaction { get; set; }
         public DateTimeOffset? DeletedAt { get; set; }

@@ -1,0 +1,242 @@
+﻿@inject IJSRuntime JS
+@inject ICategoryRepository CategoryRepository
+@inject IAccountRepository AccountRepository
+@inject ILocalStorageService LocalStorage
+@inject ApplicationDbContext DB
+
+<EditForm Model="FinancialTransaction" OnValidSubmit="Submit" FormName="Register">
+    <DataAnnotationsValidator />
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-xxl-3 col-md-6">
+                <label for="description" class="form-label">Descrição</label>
+                <InputText @bind-Value="FinancialTransaction!.Description" 73
+                           autocomplete="off"
+                           class="form-control"
+                           id="description" />
+                <ValidationMessage For="() => FinancialTransaction!.Description" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="category" class="form-label">Categoria</label>
+                <InputSelect @bind-Value="FinancialTransaction!.CategoryId"
+                             class="form-select"
+                             id="category">
+                    <option value="0">--Selecione--</option>
+                    @if (Categories is not null)
+                    {
+                        @foreach (var category in Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => FinancialTransaction!.CategoryId" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="account" class="form-label">Conta</label>
+                <InputSelect @bind-Value="FinancialTransaction!.AccountId"
+                             class="form-select"
+                             id="account">
+                    <option value="0">--Selecione--</option>
+                    @if (Accounts is not null)
+                    {
+                        @foreach (var accounts in Accounts)
+                        {
+                            <option value="@accounts.Id">@accounts.Description</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => FinancialTransaction!.Account" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="referenceDate" class="form-label">Data da competência</label>
+                <InputDate @bind-Value="FinancialTransaction!.ReferenceDate"
+                           autocomplete="off"
+                           class="form-control"
+                           id="referenceDate" />
+                <ValidationMessage For="() => FinancialTransaction!.ReferenceDate" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="dueDate" class="form-label">Data Vencimento</label>
+                <InputDate @bind-Value="FinancialTransaction!.DueDate"
+                           autocomplete="off"
+                           class="form-control"
+                           id="dueDate" />
+                <ValidationMessage For="() => FinancialTransaction!.DueDate" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="amount" class="form-label">Valor</label>
+                <InputNumber @bind-Value="FinancialTransaction!.Amount"
+                             autocomplete="off"
+                             class="form-control"
+                             id="amount" />
+                <ValidationMessage For="() => FinancialTransaction!.Amount" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="repeat" class="form-label">Repetir</label>
+                <InputSelect @bind-Value="FinancialTransaction!.Repeat" @bind-Value:after="RepeatChanged"
+                             autocomplete="off"
+                             class="form-control"
+                             id="repeat">
+                    @foreach (Recurrence option in Enum.GetValues(typeof(Recurrence)))
+                    {
+                        <option value="@option">@option.GetDisplayName()</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => FinancialTransaction!.Repeat" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="repeatTimes" class="form-label">Vezes</label>
+                <InputNumber @bind-Value="FinancialTransaction!.RepeatTimes"
+                             autocomplete="off"
+                             disabled="@RepeatTimesDesabled"
+                             class="form-control"
+                             id="repeatTimes" />
+                <ValidationMessage For="() => FinancialTransaction!.RepeatTimes" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="interestPenalty" class="form-label">Juros/Multa</label>
+                <InputNumber @bind-Value="FinancialTransaction!.InteresPenalty"
+                             autocomplete="off"
+                             class="form-control"
+                             id="interestPenalty" />
+                <ValidationMessage For="() => FinancialTransaction!.InteresPenalty" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="discount" class="form-label">Desconto</label>
+                <InputNumber @bind-Value="FinancialTransaction!.Discount"
+                             autocomplete="off"
+                             class="form-control"
+                             id="discount" />
+                <ValidationMessage For="() => FinancialTransaction!.Discount" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="paymentDate" class="form-label">Data Pagamento</label>
+                <InputDate @bind-Value="FinancialTransaction!.PaymentDate"
+                           autocomplete="off"
+                           class="form-control"
+                           id="paymentDate" />
+                <ValidationMessage For="() => FinancialTransaction!.PaymentDate" />
+            </div>
+
+            <div class="col-xxl-3 col-md-6">
+                <label for="amoundPaid" class="form-label">Valor Pago</label>
+                <InputNumber @bind-Value="FinancialTransaction!.AmoundPaid"
+                             autocomplete="off"
+                             class="form-control"
+                             id="amoundPaid" />
+                <ValidationMessage For="() => FinancialTransaction!.AmoundPaid" />
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <label for="observation" class="form-label">Observação</label>
+                    <InputTextArea @bind-Value="FinancialTransaction!.Observation"
+                                   autocomplete="off"
+                                   class="form-control"
+                                   id="observation" />
+                    <ValidationMessage For="() => FinancialTransaction!.Observation" />
+                </div>
+            </div>
+        </div>
+
+        <UploadFileForm IsEditForm="IsEditForn" Documents="Documents" OnUploaded="Uploaded" OnRemoved="Removed" />
+
+        <div class="row mt-3">
+            <div class="col-lg-12">
+                <div class="d-flex justify-content-between">
+                    <a href="/Financial/@Type/List" class="btn btn-light" @onclick="BackRollback">Voltar</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public string? Type { get; set; }
+    [Parameter]
+    public bool IsEditForn { get; set; }
+    [Parameter]
+    public FinancialTransction FinancialTransaction { get; set; } = new() { ReferenceDate = DateTimeOffset.Now, DueDate = DateTimeOffset.Now, Amount = null, Documents = new List<Document>() };
+    [Parameter]
+    public EventCallback<FinancialTransction> OnSave { get; set; }
+
+    private Company? Company;
+    private List<Category>? Categories { get; set; }
+    private List<Account>? Accounts { get; set; }
+    private List<Document> Documents;
+    private bool RepeatTimesDesabled { get; set; } = true;
+
+    protected override void OnParametersSet()
+    {
+        Documents = FinancialTransaction.Documents!.ToList();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
+            Accounts = await AccountRepository.GetAll(Company!.Id);
+            Categories = await CategoryRepository.GetAll(Company!.Id);
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task Submit()
+    {
+        FinancialTransaction.TypeFinancialTransction = (Type == TypeFinancialTransction.Pagar.ToString()) ? TypeFinancialTransction.Pagar : TypeFinancialTransction.Receber;
+        FinancialTransaction.CompanyId = Company!.Id;
+        await OnSave.InvokeAsync(FinancialTransaction);
+    }
+
+    private void RepeatChanged()
+    {
+        if (FinancialTransaction.Repeat == Recurrence.None)
+        {
+            RepeatTimesDesabled = true;
+            FinancialTransaction.RepeatTimes = null;
+        }
+        else RepeatTimesDesabled = false;
+    }
+
+    private void Uploaded(Document doc)
+    {
+        if (FinancialTransaction.Documents is not null)
+        {
+            FinancialTransaction.Documents.Add(doc);
+        }
+    }
+
+    private void Removed(Document doc)
+    {
+        if (FinancialTransaction.Documents is not null)
+        {
+            FinancialTransaction.Documents.Remove(doc);
+        }
+    }
+
+    private void BackRollback()
+    {
+        DB.ChangeTracker.Clear();
+    }
+}

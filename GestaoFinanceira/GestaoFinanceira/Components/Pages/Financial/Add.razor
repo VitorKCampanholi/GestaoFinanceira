@@ -4,31 +4,42 @@
 @inject IJSRuntime JS
 @inject IFinancialTransactionsRepository FinancialTransactionsRepository
 
-<PageTitle>
-    @Type - Cadastro
-</PageTitle>
+
+@if (Type is not null)
+{
+    <PageTitle>
+        @TypeFinancialTransactionToString.Converter(Type).ToUpper() - CADASTRO
+    </PageTitle>
+}
 
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Cadastrar @Type</h4>
+                @if (Type is not null)
+                {
+                    <h4 class="card-title mb-0 flex-grow-1">Cadastrar @TypeFinancialTransactionToString.Converter(Type)</h4>
+                }
             </div>
-            <FinancialTransactionForm Type="@Type" OnSave="Save"/>
+            <div class="card-body">
+                <FinancialTransactionForm Type="@Type" OnSave="Save" />
+            </div>
         </div>
     </div>
 </div>
 
+
 @code {
     [Parameter]
-    public string? Type { get; set; }  
+    public string? Type { get; set; }
 
     private async Task Save(FinancialTransction financialTransaction)
-    {      
-        financialTransaction.CreateDate = DateTimeOffset.Now; 
+    {
+        financialTransaction.CreateDate = DateTimeOffset.Now;
         await FinancialTransactionsRepository.Add(financialTransaction);
 
         await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso!");
         NavigationManager.NavigateTo($"/Financial/{Type}/List");
     }
+
 }

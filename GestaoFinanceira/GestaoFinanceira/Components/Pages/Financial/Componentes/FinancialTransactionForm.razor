@@ -200,11 +200,12 @@
 
             StateHasChanged();
         }
+
     }
 
     private async Task Submit()
     {
-        FinancialTransaction.TypeFinancialTransction = (Type == TypeFinancialTransction.Pagar.ToString()) ? TypeFinancialTransction.Pagar : TypeFinancialTransction.Receber;
+        FinancialTransaction.TypeFinancialTransction = (Type == TypeFinancialTransction.Pay.ToString()) ? TypeFinancialTransction.Pay : TypeFinancialTransction.Receive;
         FinancialTransaction.CompanyId = Company!.Id;
         await OnSave.InvokeAsync(FinancialTransaction);
     }

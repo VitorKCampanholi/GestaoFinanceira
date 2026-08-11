@@ -38,7 +38,7 @@ namespace GestaoFinanceira.Data.Repositories
         }
         public async Task<FinancialTransction?> Get(int id)
         {
-            return await _db.FinancialTransctions.OrderByDescending(a => a.ReferenceDate).Include(a => a.Documents).SingleOrDefaultAsync(a => a.Id == id);
+            return await _db.FinancialTransctions.OrderByDescending(a => a.ReferenceDate).Include(a => a.Category).Include(a => a.Account).Include(a => a.Documents).SingleOrDefaultAsync(a => a.Id == id);
         }
         public async Task Add(FinancialTransction entity)
         {

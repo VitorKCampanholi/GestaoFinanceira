@@ -21,13 +21,13 @@
                 }
             </div>
             <div class="card-body">
-            @if (FinancialTransction is not null)
-            {
-                <FinancialTransactionForm IsEditForn="@true" FinancialTransaction="FinancialTransction" Type="@Type" OnSave="Save" />
-            }
+                @if (FinancialTransction is not null)
+                {
+                    <FinancialTransactionForm IsEditForn="@true" FinancialTransaction="FinancialTransction" Type="@Type" OnSave="Save" />
+                }
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 @code {

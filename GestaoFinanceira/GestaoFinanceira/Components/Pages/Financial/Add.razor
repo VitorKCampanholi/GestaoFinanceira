@@ -3,6 +3,7 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 @inject IFinancialTransactionsRepository FinancialTransactionsRepository
+@inject IQueue Queue
 
 
 @if (Type is not null)
@@ -35,10 +36,19 @@
 
     private async Task Save(FinancialTransction financialTransaction)
     {
+
         financialTransaction.CreateDate = DateTimeOffset.Now;
         await FinancialTransactionsRepository.Add(financialTransaction);
 
-        await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso!");
+        if (financialTransaction.Repeat != Recurrence.None)
+        {
+            Queue.QueueInvocableWithPayload<FinancialTransacitonRepeatInvocable, FinancialTransction>(financialTransaction);
+            await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso! As parcelas serão criadas em alguns minutos!");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Registro salvo com sucesso!");
+        }
         NavigationManager.NavigateTo($"/Financial/{Type}/List");
     }
 

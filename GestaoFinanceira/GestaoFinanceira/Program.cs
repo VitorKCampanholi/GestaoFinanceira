@@ -17,6 +17,8 @@ using System.Net;
 using System.Net.Mail;
 using Blazored.LocalStorage;
 using GestaoFinanceira.Client.Libraries.Notifications;
+using Coravel;
+using GestaoFinanceira.libraries.Queues;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -84,6 +86,8 @@ builder.Services.AddSingleton<SmtpClient>(options =>
     return smtp;
 }
     );
+builder.Services.AddQueue();
+builder.Services.AddScoped<FinancialTransacitonRepeatInvocable>();
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
 builder.Services.AddSingleton<ICepservice, Cepservice>();
 builder.Services.AddBlazoredLocalStorage();
@@ -170,7 +174,7 @@ app.MapGet("/api/financialtransactions", async (
     [FromQuery] int companyId,
     [FromQuery] int pageIndex,
     [FromQuery] string searchWord
-  
+
  ) =>
 {
 

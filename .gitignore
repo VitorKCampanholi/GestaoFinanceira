@@ -24,3 +24,12 @@ wwwroot/_framework/
 
 # Outros
 *.db
+
+# Credenciais e variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# User Secrets / arquivos locais
+secrets.json
+appsettings.Local.json

@@ -27,6 +27,11 @@ namespace GestaoFinanceira.Client.Services
             throw new NotImplementedException();
         }
 
+        public Task Delete(FinancialTransction entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<FinancialTransction?> Get(int id)
         {
             throw new NotImplementedException();
@@ -38,6 +43,21 @@ namespace GestaoFinanceira.Client.Services
             var entities = await _httpClient.GetFromJsonAsync<PaginatedList<FinancialTransction>>(url);
 
             return entities;
+        }
+
+        public Task<int> GetCountAssociateTranactionSameGroup(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<FinancialTransction>> GetTranactionSameGroup(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<FinancialTransction>> GetTransactionsSameGroup(int Id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task Update(FinancialTransction entity)

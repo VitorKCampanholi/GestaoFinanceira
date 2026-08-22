@@ -27,6 +27,7 @@ namespace Gestao.Domain
         [RequiredRepeatTimes]
         public int? RepeatTimes { get; set; }
         [Range(0, 10000, ErrorMessage = "O Campo deve ter entre {1} e {2}")]
+        public int? RepeatGroup { get; set; }
         public decimal? InteresPenalty { get; set; }
         [Range(0, 10000000000, ErrorMessage = "O Campo deve ter entre {1} e {2}")]
         [DiscountNotBeGreaterThanAmount]

@@ -7,63 +7,77 @@ namespace GestaoFinanceira.Data.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IDbContextFactory<ApplicationDbContext> _Factory;
 
-        public AccountRepository(ApplicationDbContext db)
+        public AccountRepository(IDbContextFactory<ApplicationDbContext> factory)
         {
-            _db = db;
+            _Factory = factory;
         }
 
         public async Task<PaginatedList<Account>> GetAll(int companyId, int pageIdex, int pageSize, string searchWord = "")
         {
+            using (var _db = _Factory.CreateDbContext())
+            {
+                var items = await _db.Accounts
+                                     .Where(a => a.CompanyId == companyId)
+                                     .Where(a => a.Description.Contains(searchWord))
+                                     .OrderBy(a => a.Description)
+                                     .Skip((pageIdex - 1) * pageSize)
+                                     .Take(pageSize)
+                                     .ToListAsync();
+                ;
 
-            var items = await _db.Accounts
-                   .Where(a => a.CompanyId == companyId)
-                   .Where(a => a.Description.Contains(searchWord))
-                   .OrderBy(a =>a.Description)
-                   .Skip((pageIdex - 1) * pageSize)
-                   .Take(pageSize)
-                   .ToListAsync();
-            ;
+                var count = await _db.Accounts
+                       .Where(a => a.CompanyId == companyId)
+                       .Where(a => a.Description
+                       .Contains(searchWord))
+                       .CountAsync();
+                int totalPages = (int)Math.Ceiling((decimal)count / pageSize);
 
-            var count = await _db.Accounts
-                   .Where(a => a.CompanyId == companyId)
-                   .Where(a => a.Description
-                   .Contains(searchWord))
-                   .CountAsync();
-            int totalPages = (int)Math.Ceiling((decimal)count / pageSize);
-
-            return new PaginatedList<Account>(items, pageIdex, totalPages);
-
-
+                return new PaginatedList<Account>(items, pageIdex, totalPages);
+            }
         }
         public async Task<List<Account>> GetAll(int companyId)
         {
-            return await _db.Accounts.Where(a => a.CompanyId == companyId).ToListAsync();
+            using (var _db = _Factory.CreateDbContext())
+            {
+                return await _db.Accounts.Where(a => a.CompanyId == companyId).ToListAsync();
+            }
         }
-
         public async Task<Account?> Get(int id)
         {
-            return await _db.Accounts.SingleOrDefaultAsync(a => a.Id == id);
+            using (var _db = _Factory.CreateDbContext())
+            {
+                return await _db.Accounts.SingleOrDefaultAsync(a => a.Id == id);
+            }
         }
         public async Task Add(Account entity)
         {
-            _db.Accounts.Add(entity);
-            await _db.SaveChangesAsync();
+            using (var _db = _Factory.CreateDbContext())
+            {
+                _db.Accounts.Add(entity);
+                await _db.SaveChangesAsync();
+            }
         }
         public async Task Update(Account entity)
         {
-            _db.Accounts.Update(entity);
-            await _db.SaveChangesAsync();
+            using (var _db = _Factory.CreateDbContext())
+            {
+                _db.Accounts.Update(entity);
+                await _db.SaveChangesAsync();
+            }
         }
         public async Task Delete(int id)
         {
-            var entity = await Get(id);
-
-            if (entity is not null)
+            using (var _db = _Factory.CreateDbContext())
             {
-                _db.Accounts.Remove(entity);
-                await _db.SaveChangesAsync();
+                var entity = await Get(id);
+
+                if (entity is not null)
+                {
+                    _db.Accounts.Remove(entity);
+                    await _db.SaveChangesAsync();
+                }
             }
         }
 

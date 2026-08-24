@@ -1,0 +1,122 @@
+﻿@using Microsoft.EntityFrameworkCore
+@inject ILocalStorageService LocalStorage
+@inject ApplicationDbContext DB
+
+@if (AccountReports is not null && AccountReports.Count > 0)
+{
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Saldo das Contas</h4>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive table-card">
+                    <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                        <thead class="text-muted table-light">
+                            <tr>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Total Pago</th>
+                                <th scope="col">Total Recebido</th>
+                                <th scope="col">Saldo</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var account in AccountReports)
+                            {
+                                <tr>
+                                    <td>
+                                        @account.Description (Saldo inicial: @account.InitialBalance.ToString("C"))
+                                    </td>
+
+                                    <td class="text-danger">
+                                        @account.Payed.ToString("C")
+                                    </td>
+
+                                    <td class="text-success">
+                                        @account.Receive.ToString("C")
+                                    </td>
+
+                                    <td>
+                                        @if (account.Balance > 0)
+                                        {
+                                            <span class="badge bg-danger-subtle text-success">
+                                                @account.Balance.ToString("C")
+                                            </span>
+                                        }
+                                        else if (account.Balance == 0)
+                                        {
+                                            <span class="badge bg-danger-subtle text-info">
+                                                @account.Balance.ToString("C")
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger-subtle text-danger">
+                                                @account.Balance.ToString("C")
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    private Company? Company;
+    private List<AccountReportViewModel>? AccountReports { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LocalStorageCampany);
+            if (Company is null) return;
+
+            AccountReports = DB.Accounts
+                .Where(a => a.CompanyId == Company!.Id)
+                .Include(a => a.FinancialTransctions)
+                .Select(a => new AccountReportViewModel()
+                {
+                    Description = a.Description,
+
+                    InitialBalance = a.Balance,
+
+                    Payed = a.FinancialTransctions!
+                        .Where(a => a.TypeFinancialTransction == TypeFinancialTransction.Pay && a.AmoundPaid.HasValue)
+                        .Sum(a => a.AmoundPaid!.Value),
+
+                    Receive = a.FinancialTransctions!
+                        .Where(a => a.TypeFinancialTransction == TypeFinancialTransction.Receive && a.AmoundPaid.HasValue)
+                        .Sum(a => a.AmoundPaid!.Value),
+
+                    Balance = a.Balance
+                        + a.FinancialTransctions!
+                            .Where(a => a.TypeFinancialTransction == TypeFinancialTransction.Receive && a.AmoundPaid.HasValue)
+                            .Sum(a => a.AmoundPaid!.Value)
+                        - a.FinancialTransctions!
+                            .Where(a => a.TypeFinancialTransction == TypeFinancialTransction.Pay && a.AmoundPaid.HasValue)
+                            .Sum(a => a.AmoundPaid!.Value)
+                })
+                .ToList();
+
+            StateHasChanged();
+        }
+    }
+
+    class AccountReportViewModel
+    {
+        public string Description { get; set; }
+        public decimal Payed { get; set; }
+        public decimal Receive { get; set; }
+        public decimal Balance { get; set; }
+        public decimal InitialBalance { get; set; }
+    }
+}

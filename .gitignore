@@ -33,3 +33,6 @@ wwwroot/_framework/
 # User Secrets / arquivos locais
 secrets.json
 appsettings.Local.json
+
+appsettings.json
+appsettings.*.json

@@ -1,10 +1,41 @@
 ﻿@page "/"
+@inherits PageBase
 
 @attribute [Authorize]
+@inject ApplicationDbContext DB
 @rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Painel</PageTitle>
+<div class="row">
+    <GestaoFinanceira.Components.Pages.Painel.Totalizadores />
+    <GestaoFinanceira.Components.Pages.Painel.AccountBalance />
+</div>
 
-<h1>Hello, world!</h1>
+<GestaoFinanceira.Components.Pages.Painel.AccssLink />
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var company = await LocalStorage.GetItemAsync<Gestao.Domain.Company>(AppConstants.LocalStorageCampany);
+            if (company is null)
+                NavigationManager.NavigateTo("/Company/List");
+        }
 
-Welcome to your new app.
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

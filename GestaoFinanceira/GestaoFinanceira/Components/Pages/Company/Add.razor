@@ -118,8 +118,8 @@
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await JS.InvokeVoidAsync("CompanyMaskInit");
+    {     
+           await JS.InvokeVoidAsync("CompanyMaskInit");
     }
 
     private async Task Submit()

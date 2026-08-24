@@ -94,8 +94,6 @@ GestaoFinanceira/
     └── appsettings.json
 ```
 
-> A estrutura acima pode ser ajustada de acordo com a estrutura final existente no repositório.
-
 ### Domain
 
 Responsável pelas principais regras e entidades do domínio da aplicação.
